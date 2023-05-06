@@ -19,6 +19,7 @@ if (!shoppingList[chatId]) {
 shoppingList[chatId].push(item);
 }; 
 
+
 // старт бота
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -27,29 +28,22 @@ bot.onText(/\/start/, (msg) => {
 
 // добавление товаров, очистка списка
 bot.on('message', (msg) => {
-const chatId = msg.chat.id;
-const item = msg.text;
-let numberId = 0;
-let i = 0;
+  const chatId = msg.chat.id;
+  const item = msg.text;
+  let numberId = 0;
+  let i = 0;
 // проверка для того, чтобы команды в список не добавлялись 
-if (item != '/start' && item != '/clear') {
+  if (item != '/start' && item != '/clear') {
   addItemToShoppingList(chatId, item);
-  // Добавление нумерации и вывод в виде: порядковый номер: товар
-  if (shoppingList[chatId].length > 0) { 
-    for (i = 0; i < shoppingList[chatId].length; i++) {
-      numberId += 1;
-      bot.sendMessage(chatId, `${numberId}: ${shoppingList[chatId][i]}`);
-    }
+  // второй вариант вывода списка покупок с нумерацией c помощью arr.map(function(item, index, array)
+    bot.sendMessage(chatId, `${shoppingList[chatId].map((item, index) => `${index + 1}. ${item}`).join('\n')}`);
 
-  }
-
-} else if (item === '/clear'){
+  } else if (item === '/clear') {
 // очистить список
   shoppingList[chatId].length = 0;
   bot.sendMessage(chatId, `Список удален!`);
-}
+  }
 
-// bot.sendMessage(chatId, `🍔 Купи: \n\n${shoppingList[chatId]}`);
 });
 
 
