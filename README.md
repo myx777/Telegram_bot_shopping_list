@@ -64,6 +64,11 @@ module.exports = token;
     ```
     screen -r botshop
     ```
+10. Delete folder with bot:
+    
+    ```
+    rm -r ~/botshop
+    ```
 
 
 <div id="footer" align="center">
