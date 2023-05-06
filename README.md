@@ -67,6 +67,6 @@ module.exports = token;
 
 
 <div id="footer" align="center">
-  <img src="https://i.gifer.com/IG5z.gif" width="100%"/>
+  <img src="https://gifdb.com/images/file/simpsons-homer-tongue-out-ljncsfdb0elbkrex.gif" width="100%"/>
 </div>
     
