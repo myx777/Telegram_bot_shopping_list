@@ -66,4 +66,7 @@ module.exports = token;
     ```
 
 
-    ![Simpson](https://i.gifer.com/IG5z.gif)
+<div id="footer" align="center">
+  <img src="https://i.gifer.com/IG5z.gif" width="100%"/>
+</div>
+    
