@@ -14,47 +14,56 @@ module.exports = token;
 ```
 
 ## Server preparation (ubuntu):
-1. Install Node.js:
+1. Install *Node.js* and *npm*:
    
-   `` apt install nodejs``
+   ```
+    sudo apt update
+
+    sudo apt install nodejs
+
+    sudo apt install npm
+
+   ```
 2. Create new folder:
    
-   ``mkdir botshop``
+   ```
+   mkdir botshop
+   ```
 
 3. Go to folder ***botshop***:
    
-   ``cd botshop``
+   ```
+   cd botshop
+   ```
 
 4. Create new project:
 
-    ``npm init``
+    ```
+    npm init
+    ```
 
 5. Install ``npm`` dependence for telegram bot:
 
-    ``npm install node-telegram-bot-api --save``
+    ```
+    npm install node-telegram-bot-api --save
+    ```
 
    
 6. Clone this bot.
 7. Start bot on new window:
    
-    ``screen -S botshop``
+    ```
+    screen -S botshop
 
-    ``node index.js``
+    node index.js
+    ```
 
 8. For stop window push ***CTRL + A + D***.
 9. If you want to get back to working with your bot:
     
-    ``screen -r botshop``
-
- 
-
-
+    ```
+    screen -r botshop
+    ```
 
 
-
-
-
-
-
-
-    ![Alt Text](https://i.gifer.com/IG5z.gif)
+    ![Simpson](https://i.gifer.com/IG5z.gif)
