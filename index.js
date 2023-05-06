@@ -25,7 +25,7 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(chatId, 'Привет! Чтобы добавить товар в список, просто напиши его в чат.');
 });
 
-// добавление товаров
+// добавление товаров, очистка списка
 bot.on('message', (msg) => {
 const chatId = msg.chat.id;
 const item = msg.text;
@@ -44,12 +44,9 @@ if (item != '/start' && item != '/clear') {
   }
 
 } else if (item === '/clear'){
-// очитстить список
-  bot.onText(/\/clear/, (msg) => {
-  const chatId = msg.chat.id;
+// очистить список
   shoppingList[chatId].length = 0;
-  bot.sendMessage(chatId, `список удален`);
-  });
+  bot.sendMessage(chatId, `Список удален!`);
 }
 
 // bot.sendMessage(chatId, `🍔 Купи: \n\n${shoppingList[chatId]}`);
