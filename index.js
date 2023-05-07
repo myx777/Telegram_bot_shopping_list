@@ -75,4 +75,6 @@ bot.on('callback_query', (query) => {
   if (data === 'button_pressed') {
     const message = query.message.text;
     bot.answerCallbackQuery(query.id, { text: `Вы нажали на кнопку "${message}"` });
-  }
+  };
+
+});
