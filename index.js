@@ -30,30 +30,60 @@ bot.on('message', (msg) => {
 const chatId = msg.chat.id;
 const item = msg.text;
 let numberId = 0;
-let i = 0;
 // проверка для того, чтобы команды в список не добавлялись 
-if (item != '/start' && item != '/clear') {
+if (item != '/start' && item != '/clear' && item != '') {
   addItemToShoppingList(chatId, item);
   // Добавление нумерации и вывод в виде: порядковый номер: товар
   if (shoppingList[chatId].length > 0) { 
-    for (i = 0; i < shoppingList[chatId].length; i++) {
+    for (let i = 0; i < shoppingList[chatId].length; i++) {
       numberId += 1;
-      bot.sendMessage(chatId, `${numberId}: ${shoppingList[chatId][i]}`);
+      // bot.sendMessage(chatId, `${numberId}: ${shoppingList[chatId][i]}`);
+      let buttonText = `🔴 ${numberId}. ${shoppingList[chatId][i]}`;
+      bot.sendMessage(chatId,  {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                // text: '🔴 ' + numberId + '. ' + shoppingList[chatId][i],
+                text: buttonText,
+                callback_data: 'button_pressed'
+              }
+            ]
+         ]
+       }
+      });
+
     }
 
-  }
+  };
 
 } else if (item === '/clear'){
-// очитстить список
-  bot.onText(/\/clear/, (msg) => {
-  const chatId = msg.chat.id;
+// очистить список
   shoppingList[chatId].length = 0;
   bot.sendMessage(chatId, `список удален`);
-  });
-}
-
-// bot.sendMessage(chatId, `🍔 Купи: \n\n${shoppingList[chatId]}`);
+  } else if (item === '') {
+  bot.sendMessage(chatId, `напиши что-нибудь!`);
+  };
+  
 });
+
+
+
+// обработка кнопки
+bot.on('callback_query', (query) => {
+  const chatId = query.message.chat.id;
+  const data = query.data;
+  if (data === 'button_pressed') {
+    const message = query.message.text;
+    bot.answerCallbackQuery(query.id, { text: `Вы нажали на кнопку "${message}"` });
+  }
+});
+
+
+
+
+
+
 
 
 
