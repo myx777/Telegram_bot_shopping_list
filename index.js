@@ -38,14 +38,13 @@ if (item != '/start' && item != '/clear' && item != '') {
     for (let i = 0; i < shoppingList[chatId].length; i++) {
       numberId += 1;
       // bot.sendMessage(chatId, `${numberId}: ${shoppingList[chatId][i]}`);
-      let buttonText = `🔴 ${numberId}. ${shoppingList[chatId][i]}`;
-      bot.sendMessage(chatId,  {
+      let buttonText = `${numberId}. ${shoppingList[chatId][i]}`;
+      bot.sendMessage(chatId, buttonText, {
         reply_markup: {
           inline_keyboard: [
             [
               {
-                // text: '🔴 ' + numberId + '. ' + shoppingList[chatId][i],
-                text: buttonText,
+                text: '🔴 ' + buttonText,
                 callback_data: 'button_pressed'
               }
             ]
