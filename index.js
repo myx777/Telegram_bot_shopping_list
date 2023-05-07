@@ -76,14 +76,3 @@ bot.on('callback_query', (query) => {
     const message = query.message.text;
     bot.answerCallbackQuery(query.id, { text: `Вы нажали на кнопку "${message}"` });
   }
-
-
-
-
-
-
-
-
-
-
-
