@@ -19,18 +19,6 @@ if (!shoppingList[chatId]) {
 shoppingList[chatId].push(item);
 }; 
 
-// функция удаления товаров из списка покупок
-function remoteItem(chatId, index) {
-  if (shoppingList[chatId] && shoppingList[chatId][index]) {
-    shoppingList[chatId].splice[index, 1];
-  }
-
-};
-
-
-// добавляю  кнопку
-
-
 // старт бота
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -39,51 +27,63 @@ bot.onText(/\/start/, (msg) => {
 
 // добавление товаров, очистка списка
 bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-  const item = msg.text;
+const chatId = msg.chat.id;
+const item = msg.text;
+let numberId = 0;
+// проверка для того, чтобы команды в список не добавлялись 
+if (item != '/start' && item != '/clear' && item != '') {
+  addItemToShoppingList(chatId, item);
+  // Добавление нумерации и вывод в виде: порядковый номер: товар
+  if (shoppingList[chatId].length > 0) { 
+    for (let i = 0; i < shoppingList[chatId].length; i++) {
+      numberId += 1;
+      // bot.sendMessage(chatId, `${numberId}: ${shoppingList[chatId][i]}`);
+      let buttonText = `${numberId}. ${shoppingList[chatId][i]}`;
+      bot.sendMessage(chatId, buttonText, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: '🔴 ' + buttonText,
+                callback_data: 'button_pressed'
+              }
+            ]
+         ]
+       }
+      });
 
-  // проверка для того, чтобы команды в список не добавлялись 
-  if (item != '/start' && item != '/clear') {
-    addItemToShoppingList(chatId, item);
+    }
 
-  // второй вариант вывода списка покупок с нумерацией c помощью arr.map(function(item, index, array)
-    bot.sendMessage(chatId, `${shoppingList[chatId].map((item, index) => `${index + 1}. ${item}`).join('\n')}`, {
-      // добавляю кнопку
-      reply_markup: {
-        inline_keyboard: shoppingList[chatId].map((item, index) => [
-          { text: '✅', callback_data: `/done ${index + 1}` },
-        ]),
+  };
 
-      },
-
-    });
-
-  } else if (item === '/clear') {
-  // очистить список
-    shoppingList[chatId].length = 0;
-   bot.sendMessage(chatId, `Список удален!`);
-  }
-
+} else if (item === '/clear'){
+// очистить список
+  shoppingList[chatId].length = 0;
+  bot.sendMessage(chatId, `список удален`);
+  } else if (item === '') {
+  bot.sendMessage(chatId, `напиши что-нибудь!`);
+  };
+  
 });
 
-// колл бек для кнопки
-bot.on('callback_query', (callbackQuery) => {
-  const chatId = callbackQuery.message.chat.id;
-  const messageId = callbackQuery.message.message_id;
-  const index = parseInt(callbackQuery.data.split(' ')[1]) - 1; // получаем индекс элемента
 
-  // удаляем элемент из списка
-  remoteItem(chatId, index);
 
-  // обновляем сообщение со списком покупок
-  bot.editMessageText(`${shoppingList[chatId].map((item, index) => `${index + 1}. ${item}`).join('\n')}`, {
-    chat_id: chatId,
-    message_id: messageId,
-    // обновляем кнопки для каждого элемента списка
-    reply_markup: {
-      inline_keyboard: shoppingList[chatId].map((item, index) => [
-        { text: '✅', callback_data: `/done ${index + 1}` },
-      ]),
-    },
-        });
-        });
+// обработка кнопки
+bot.on('callback_query', (query) => {
+  const chatId = query.message.chat.id;
+  const data = query.data;
+  if (data === 'button_pressed') {
+    const message = query.message.text;
+    bot.answerCallbackQuery(query.id, { text: `Вы нажали на кнопку "${message}"` });
+  }
+
+
+
+
+
+
+
+
+
+
+
