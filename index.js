@@ -27,30 +27,44 @@ bot.onText(/\/start/, (msg) => {
 
 // добавление товаров, очистка списка
 bot.on('message', (msg) => {
-const chatId = msg.chat.id;
-const item = msg.text;
-let numberId = 0;
+  const chatId = msg.chat.id;
+  const item = msg.text;
+  let numberId = 0;
 // проверка для того, чтобы команды в список не добавлялись 
 if (item != '/start' && item != '/clear' && item != '') {
   addItemToShoppingList(chatId, item);
-  // Добавление нумерации и вывод в виде: порядковый номер: товар
-  if (shoppingList[chatId].length > 0) { 
-    for (let i = 0; i < shoppingList[chatId].length; i++) {
-      numberId += 1;
-      // bot.sendMessage(chatId, `${numberId}: ${shoppingList[chatId][i]}`);
-      let buttonText = `${numberId}. ${shoppingList[chatId][i]}`;
-      bot.sendMessage(chatId, buttonText, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: '🔴 ' + buttonText,
-                callback_data: 'button_pressed'
-              }
-            ]
-         ]
-       }
-      });
+  // второй вариант вывода списка покупок с нумерацией c помощью arr.map(function(item, index, array)
+    let bottomMessage = `${shoppingList[chatId].map((item, index) => `${index + 1}. ${item}`).join('\n')}`;
+    bot.sendMessage(chatId, bottomMessage, {
+      // добавление кнопки
+
+      // inline_keyboard это массив, который содержит массивы кнопок, 
+      // которые будут отображаться в виде строк в чате. 
+
+      // Каждый элемент массива-кнопки это объект, который содержит информацию о кнопке, 
+      // такую как ее текст и callback_data.
+
+      // В данном коде используется метод массива map() для создания нового массива кнопок. 
+      // Каждый элемент нового массива-кнопки это объект, который содержит текст кнопки (index - номер, item - товар) и callback_data (\done). 
+            
+      // Затем, этот массив кнопок используется как значение свойства inline_keyboard 
+      // объекта reply_markup. reply_markup объекта bot.sendMessage() используется для 
+      // настройки клавиатуры, которая будет отображаться в сообщении бота.
+      
+      // При нажатии на любую из кнопок, бот будет отправлять callback_query с callback_data, 
+      // который был указан в свойстве callback_data соответствующей кнопки.
+        
+      reply_markup: {
+        inline_keyboard: shoppingList[chatId].map((item, index) => [
+         {
+            text: `${index + 1}. ${item}`,
+            callback_data: '/done'
+         }
+            
+        ])
+      };
+
+    });
 
     }
 
