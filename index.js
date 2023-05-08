@@ -34,8 +34,8 @@ bot.on('message', (msg) => {
 if (item != '/start' && item != '/clear' && item != '') {
   addItemToShoppingList(chatId, item);
   // второй вариант вывода списка покупок с нумерацией c помощью arr.map(function(item, index, array)
-    let bottomMessage = `${shoppingList[chatId].map((item, index) => `${index + 1}. ${item}`).join('\n')}`;
-    bot.sendMessage(chatId, bottomMessage, {
+  let bottomMessage = `${shoppingList[chatId].map((item, index) => `${index + 1}. ${item}`).join('\n')}`;
+  bot.sendMessage(chatId, bottomMessage, {
       // добавление кнопки
 
       // inline_keyboard это массив, который содержит массивы кнопок, 
@@ -54,21 +54,17 @@ if (item != '/start' && item != '/clear' && item != '') {
       // При нажатии на любую из кнопок, бот будет отправлять callback_query с callback_data, 
       // который был указан в свойстве callback_data соответствующей кнопки.
         
-      reply_markup: {
-        inline_keyboard: shoppingList[chatId].map((item, index) => [
-         {
-            text: `${index + 1}. ${item}`,
-            callback_data: '/done'
-         }
+    reply_markup: {
+      inline_keyboard: shoppingList[chatId].map((item, index) => [
+        {
+          text: `${index + 1}. ${item}`,
+          callback_data: '/done'
+        }
             
-        ])
-      };
-
-    });
-
+      ])
     }
 
-  };
+  });
 
 } else if (item === '/clear'){
 // очистить список
@@ -79,8 +75,6 @@ if (item != '/start' && item != '/clear' && item != '') {
   };
   
 });
-
-
 
 // обработка кнопки
 bot.on('callback_query', (query) => {
